@@ -83,6 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Encuentra contactos clave en cualquier empresa con Apollo.io" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Apollo People Finder" },
+      { name: "twitter:description", content: "Encuentra contactos clave en cualquier empresa con Apollo.io" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d28221d3-9ec9-451d-a628-5e2d12861385/id-preview-36889bc2--8bbaf23c-20af-4551-a846-299936006dbd.lovable.app-1781658013520.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d28221d3-9ec9-451d-a628-5e2d12861385/id-preview-36889bc2--8bbaf23c-20af-4551-a846-299936006dbd.lovable.app-1781658013520.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
