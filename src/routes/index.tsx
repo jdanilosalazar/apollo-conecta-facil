@@ -2,13 +2,11 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertCircle } from "lucide-react";
 import { SearchForm } from "../components/SearchForm";
-import { ConfigPanel } from "../components/ConfigPanel";
 import { SearchLoading } from "../components/SearchLoading";
 import { SummaryCard } from "../components/SummaryCard";
 import { ResultsTable } from "../components/ResultsTable";
 import { ExportButton } from "../components/ExportButton";
 import { useApolloSearch } from "../hooks/useApolloSearch";
-import type { ApolloConfig } from "../types/apollo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,38 +22,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const DEFAULT_TITLES = [
-  "CEO",
-  "Founder",
-  "Co-Founder",
-  "CMO",
-  "Marketing Director",
-  "Head of Marketing",
-  "Growth Manager",
-  "E-commerce Manager",
-  "Digital Marketing Manager",
-  "Owner",
-];
-
 function Index() {
   const [url, setUrl] = useState("");
-  const [config, setConfig] = useState<ApolloConfig>({
-    apiKey: "",
-    personTitles: DEFAULT_TITLES,
-    perPage: 10,
-  });
   const { state, search, reset } = useApolloSearch();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) return;
-    search(url.trim(), config);
+    search(url.trim());
   };
 
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-3xl mx-auto px-4 md:px-6 py-8 space-y-4">
-        {/* Header */}
         <header className="space-y-2 py-4 animate-fade-in">
           <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-primary">
             <span className="w-2 h-2 rounded-full bg-primary" />
@@ -76,8 +55,6 @@ function Index() {
           onSubmit={handleSubmit}
           isLoading={state.status === "loading"}
         />
-
-        <ConfigPanel config={config} setConfig={setConfig} />
 
         {state.status === "loading" && (
           <SearchLoading message={state.message} progress={state.progress} />
