@@ -62,10 +62,9 @@ export function useApolloSearch() {
     }, 1200);
 
     try {
-      const response = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: companyUrl.trim(), domain }),
+      const params = new URLSearchParams({ url: companyUrl.trim(), domain });
+      const response = await fetch(`${WEBHOOK_URL}?${params}`, {
+        method: "GET",
       });
 
       clearInterval(interval);
