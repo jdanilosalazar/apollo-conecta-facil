@@ -31,6 +31,42 @@ function extractContacts(payload: any): any[] {
 }
 
 function normalize(raw: any): EnrichedContact {
+  // Map Spanish n8n field names to the EnrichedContact interface
+  if ("Nombre" in raw || "Cargo" in raw) {
+    const emailRaw: string = raw["Email"] ?? "";
+    const email = emailRaw.startsWith("=") ? emailRaw.slice(1) : emailRaw;
+
+    const ciudadRaw: string = raw["Ciudad"] ?? "";
+    const ciudadParts = ciudadRaw.split(",").map((s: string) => s.trim());
+    const city = ciudadParts.length > 1 ? ciudadParts.slice(0, -1).join(", ") : ciudadRaw;
+    const country = ciudadParts.length > 1 ? ciudadParts[ciudadParts.length - 1] : "";
+
+    const phone: string = raw["Teléfono"] ?? "";
+    const dominio: string | null = raw["Dominio"] ?? null;
+
+    return {
+      id: raw["ID Contacto"] ?? raw["Person ID"] ?? "",
+      name: raw["Nombre"] ?? "",
+      first_name: (raw["Nombre"] ?? "").split(" ")[0] ?? "",
+      last_name: (raw["Nombre"] ?? "").split(" ").slice(1).join(" ") ?? "",
+      title: raw["Cargo"] ?? "",
+      headline: raw["Headline"] || null,
+      email: email || null,
+      email_status: raw["Email Status"] || null,
+      phone_numbers: phone ? [{ raw_number: phone, type: "other" }] : [],
+      linkedin_url: raw["LinkedIn"] || null,
+      city: city || null,
+      state: null,
+      country: country || null,
+      organization_name: raw["Empresa"] || null,
+      organization: dominio ? { primary_domain: dominio, name: raw["Empresa"] } : undefined,
+      account: undefined,
+      personal_emails: [],
+      enriched: Boolean(email),
+    };
+  }
+
+  // Fallback: English Apollo field names
   return {
     ...raw,
     personal_emails: Array.isArray(raw?.personal_emails) ? raw.personal_emails : [],
