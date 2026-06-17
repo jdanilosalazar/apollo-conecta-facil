@@ -9,7 +9,7 @@ export function SummaryCard({
 }) {
   const total = contacts.length;
   const withAnyEmail = contacts.filter((c) => c.email).length;
-  const withPhone = contacts.filter((c) => c.phone_numbers?.length > 0).length;
+  const withPhone = contacts.filter((c) => (c.phone_numbers?.length ?? 0) > 0).length;
 
   return (
     <div className="bg-card border border-border rounded-xl shadow-sm p-5 animate-fade-in w-full">
