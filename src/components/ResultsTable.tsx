@@ -1,4 +1,4 @@
-import { Linkedin } from "lucide-react";
+import { Linkedin, Mail, Phone } from "lucide-react";
 import type { EnrichedContact } from "../types/apollo";
 
 const statusColors: Record<string, string> = {
@@ -24,9 +24,84 @@ function truncate(s: string | null, n: number) {
   return s.length > n ? s.slice(0, n - 1) + "…" : s;
 }
 
+function ContactCard({ c, i }: { c: EnrichedContact; i: number }) {
+  const phone = c.phone_numbers?.[0]?.raw_number;
+  const company = c.organization_name ?? c.organization?.name ?? c.account?.name ?? "";
+  const status = c.email_status ?? "";
+  const location = [c.city, c.country].filter(Boolean).join(", ");
+
+  return (
+    <div
+      key={c.id ?? i}
+      className="bg-card border border-border rounded-xl p-4 space-y-2 shadow-sm"
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="font-semibold text-foreground">{c.name || "—"}</p>
+          <p className="text-sm text-muted-foreground">{c.title || ""}</p>
+        </div>
+        {c.linkedin_url && (
+          <a
+            href={c.linkedin_url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-primary hover:opacity-70 shrink-0 mt-0.5"
+          >
+            <Linkedin className="w-4 h-4" />
+          </a>
+        )}
+      </div>
+
+      {company && (
+        <p className="text-xs font-mono text-muted-foreground">{company}</p>
+      )}
+
+      {c.email && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <Mail className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+          <a href={`mailto:${c.email}`} className="text-xs font-mono text-primary hover:underline break-all">
+            {c.email}
+          </a>
+          {status && (
+            <span
+              className={`text-xs font-mono px-2 py-0.5 rounded-full ${
+                statusColors[status] ?? statusColors.unverified
+              }`}
+            >
+              {statusLabels[status] ?? status}
+            </span>
+          )}
+        </div>
+      )}
+
+      {phone && (
+        <div className="flex items-center gap-2">
+          <Phone className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+          <a href={`tel:${phone}`} className="text-xs font-mono text-primary hover:underline">
+            {phone}
+          </a>
+        </div>
+      )}
+
+      {location && (
+        <p className="text-xs text-muted-foreground">{location}</p>
+      )}
+    </div>
+  );
+}
+
 export function ResultsTable({ contacts }: { contacts: EnrichedContact[] }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-border bg-card shadow-sm animate-fade-in">
+    <>
+      {/* Mobile: card list */}
+      <div className="md:hidden space-y-3 animate-fade-in">
+        {contacts.map((c, i) => (
+          <ContactCard key={c.id ?? i} c={c} i={i} />
+        ))}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden md:block overflow-x-auto rounded-xl border border-border bg-card shadow-sm animate-fade-in">
       <table className="w-full text-sm">
         <thead className="bg-muted/50 sticky top-0">
           <tr>
@@ -134,6 +209,7 @@ export function ResultsTable({ contacts }: { contacts: EnrichedContact[] }) {
           })}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   );
 }

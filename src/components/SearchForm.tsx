@@ -17,7 +17,7 @@ export function SearchForm({ url, setUrl, onSubmit, isLoading }: Props) {
         <label className="text-sm font-semibold text-foreground block">
           URL de la empresa
         </label>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="text"
             value={url}
@@ -30,7 +30,7 @@ export function SearchForm({ url, setUrl, onSubmit, isLoading }: Props) {
           <button
             type="submit"
             disabled={isLoading || !url.trim()}
-            className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 py-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 font-semibold px-6 py-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
           >
             <Search className="w-4 h-4" />
             Buscar

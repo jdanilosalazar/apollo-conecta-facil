@@ -1,21 +1,21 @@
 import { Download } from "lucide-react";
 import type { EnrichedContact } from "../types/apollo";
 
-function exportToCSV(contacts: EnrichedContact[], domain: string) {
-  const headers = [
-    "Nombre",
-    "Cargo",
-    "Headline",
-    "Email",
-    "Estado Email",
-    "Teléfono",
-    "LinkedIn",
-    "Ciudad",
-    "País",
-    "Empresa",
-    "Dominio",
-  ];
+const CSV_HEADERS = [
+  "Nombre",
+  "Cargo",
+  "Headline",
+  "Email",
+  "Estado Email",
+  "Teléfono",
+  "LinkedIn",
+  "Ciudad",
+  "País",
+  "Empresa",
+  "Dominio",
+];
 
+export function buildCSV(contacts: EnrichedContact[]): string {
   const rows = contacts.map((c) => [
     c.name ?? "",
     c.title ?? "",
@@ -30,11 +30,15 @@ function exportToCSV(contacts: EnrichedContact[], domain: string) {
     c.organization?.primary_domain ?? c.account?.domain ?? "",
   ]);
 
-  const csvContent = [headers, ...rows]
+  return [CSV_HEADERS, ...rows]
     .map((row) =>
       row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(","),
     )
     .join("\n");
+}
+
+function exportToCSV(contacts: EnrichedContact[], domain: string) {
+  const csvContent = buildCSV(contacts);
 
   const blob = new Blob(["\uFEFF" + csvContent], {
     type: "text/csv;charset=utf-8;",

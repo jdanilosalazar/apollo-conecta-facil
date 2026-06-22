@@ -6,6 +6,7 @@ import { SearchLoading } from "../components/SearchLoading";
 import { SummaryCard } from "../components/SummaryCard";
 import { ResultsTable } from "../components/ResultsTable";
 import { ExportButton } from "../components/ExportButton";
+import { CopyButton } from "../components/CopyButton";
 import { useApolloSearch } from "../hooks/useApolloSearch";
 
 export const Route = createFileRoute("/")({
@@ -86,11 +87,14 @@ function Index() {
       {state.status === "success" && (
         <div className="max-w-7xl mx-auto px-4 md:px-6 pb-12 space-y-4 animate-fade-in">
           <SummaryCard contacts={state.contacts} domain={state.domain} />
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <p className="text-sm text-muted-foreground font-mono">
               {state.contacts.length} resultado(s) encontrados
             </p>
-            <ExportButton contacts={state.contacts} domain={state.domain} />
+            <div className="flex gap-2">
+              <CopyButton contacts={state.contacts} />
+              <ExportButton contacts={state.contacts} domain={state.domain} />
+            </div>
           </div>
           <ResultsTable contacts={state.contacts} />
           <button
