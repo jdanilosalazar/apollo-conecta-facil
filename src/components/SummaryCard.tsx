@@ -61,9 +61,7 @@ export function SummaryCard({
           <p className="text-xs text-muted-foreground mt-1">Contactos encontrados</p>
         </div>
         <div className="bg-muted/50 rounded-lg p-3 text-center">
-          <p className="text-2xl font-bold font-mono text-emerald-600">
-            {withAnyEmail}
-          </p>
+          <p className="text-2xl font-bold font-mono text-emerald-600">{withAnyEmail}</p>
           <p className="text-xs text-muted-foreground mt-1">Con email</p>
         </div>
         <div className="bg-muted/50 rounded-lg p-3 text-center">
@@ -71,6 +69,21 @@ export function SummaryCard({
           <p className="text-xs text-muted-foreground mt-1">Con teléfono</p>
         </div>
       </div>
+
+      {total > 0 && (
+        <div className="mt-4">
+          <div className="flex justify-between text-xs text-muted-foreground mb-1.5">
+            <span>Emails encontrados</span>
+            <span className="font-mono">{withAnyEmail}/{total} ({Math.round((withAnyEmail / total) * 100)}%)</span>
+          </div>
+          <div className="h-2 bg-muted rounded-full overflow-hidden">
+            <div
+              className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+              style={{ width: `${Math.round((withAnyEmail / total) * 100)}%` }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
