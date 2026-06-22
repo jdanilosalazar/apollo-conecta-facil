@@ -86,7 +86,7 @@ function Index() {
       {/* Wide container for results */}
       {state.status === "success" && (
         <div className="max-w-7xl mx-auto px-4 md:px-6 pb-12 space-y-4 animate-fade-in">
-          <SummaryCard contacts={state.contacts} domain={state.domain} />
+          <SummaryCard contacts={state.contacts} domain={state.domain} searchDate={state.searchDate} originalUrl={state.originalUrl} />
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <p className="text-sm text-muted-foreground font-mono">
               {state.contacts.length} resultado(s) encontrados

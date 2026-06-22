@@ -25,5 +25,5 @@ export interface EnrichedContact extends ApolloContact {
 export type SearchStatus =
   | { status: "idle" }
   | { status: "loading"; message: string; progress: number }
-  | { status: "success"; contacts: EnrichedContact[]; domain: string }
+  | { status: "success"; contacts: EnrichedContact[]; domain: string; searchDate: string | null; originalUrl: string | null }
   | { status: "error"; message: string };

@@ -121,7 +121,15 @@ export function useApolloSearch() {
       }
 
       const contacts = rawContacts.map(normalize);
-      setState({ status: "success", contacts, domain });
+      const searchDate: string | null =
+        (data && typeof data === "object" && typeof data.search_date === "string")
+          ? data.search_date
+          : null;
+      const originalUrl: string | null =
+        (data && typeof data === "object" && typeof data.original_url === "string")
+          ? data.original_url
+          : null;
+      setState({ status: "success", contacts, domain, searchDate, originalUrl });
     } catch (err) {
       clearInterval(interval);
       setState({
