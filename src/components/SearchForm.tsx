@@ -22,7 +22,7 @@ export function SearchForm({ url, setUrl, onSubmit, isLoading }: Props) {
             type="text"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://milanelo.com/"
+            placeholder="https://www.ejemplo.com"
             required
             disabled={isLoading}
             className="flex-1 bg-background border border-border rounded-lg px-5 py-4 text-base font-mono placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow disabled:opacity-50"

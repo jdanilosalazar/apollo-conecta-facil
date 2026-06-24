@@ -33,6 +33,11 @@ function Index() {
     search(url.trim());
   };
 
+  const handleReset = () => {
+    reset();
+    setUrl("");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Narrow column for header + form */}
@@ -74,7 +79,7 @@ function Index() {
               </div>
             </div>
             <button
-              onClick={reset}
+              onClick={handleReset}
               className="mt-4 text-sm text-primary hover:underline font-medium"
             >
               ← Intentar nuevamente
@@ -98,7 +103,7 @@ function Index() {
           </div>
           <ResultsTable contacts={state.contacts} />
           <button
-            onClick={reset}
+            onClick={handleReset}
             className="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono"
           >
             ← Nueva búsqueda
